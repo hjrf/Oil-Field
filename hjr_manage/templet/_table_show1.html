@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Cloud Admin | Dynamic Tables</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- JQUERY UI-->
+    <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- DATA TABLES -->
+    <link rel="stylesheet" type="text/css" href="js/datatables/media/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/datatables/media/assets/css/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/datatables/extras/TableTools/media/css/TableTools.min.css" />
+    <!-- FONTS -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <!-- /PAGE HEADER -->
+
+    <!-- DATA TABLES -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BOX -->
+            <div class="box border green">
+                <div class="box-title">
+                    <h4><i class="fa fa-table"></i>上传文件列表</h4>
+                    <div class="tools hidden-xs">
+                        <a href="#box-config" data-toggle="modal" class="config">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                        <a href="javascript:;" class="reload">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="javascript:;" class="collapse">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a href="javascript:;" class="remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="datatable1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+                    
+                        <!--<thead>
+                            <tr>
+                                <th>文件名称</th>
+                                <th>文件类型</th>
+                                <th class="hidden-xs">文件路径</th>
+                                <th>导入数据库</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="gradeX">
+                                <td>Trident</td>
+                                <td>
+                                    Internet
+                                    Explorer
+                                    4.0
+                                </td>
+                                <td class="hidden-xs">Win 95+</td>
+                                <td class="center">4</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>文件名称</th>
+                                <th>文件类型</th>
+                                <th class="hidden-xs">文件路径</th>
+                                <th>导入数据库</th>
+                            </tr>
+                        </tfoot>-->
+
+
+                    </table>
+                </div>
+            </div>
+            <!-- /BOX -->
+        </div>
+    </div>
+
+    <!-- /EXPORT TABLES -->
+    <div class="footer-tools">
+        <span class="go-top">
+            <i class="fa fa-chevron-up"></i> Top
+        </span>
+    </div>
+
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="bootstrap-dist/js/bootstrap.min.js"></script>
+
+
+    <!-- DATE RANGE PICKER -->
+    <script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+
+    <script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- DATA TABLES -->
+    <script type="text/javascript" src="js/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
+    <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js"></script>
+    <!-- COOKIE -->
+    <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- CUSTOM SCRIPT -->
+    <script src="js/script.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+			//App.setPage("dynamic_table");  //Set current page
+			//App.init(); //Initialise plugins and elements
+            TableDataBind();
+		});
+    </script>
+    <!-- /JAVASCRIPTS -->
+    <!--hjr-javascript-->
+    <script>
+
+        function getIframeParams(iframeId) {
+            var regexpParam = /\??([\w\d%]+)=([\w\d%]*)&?/g; //分离参数的正则表达式
+            //var targetEle = document.getElementById(iframeId);// 如果是获取父页面iframe用这个：var targetEle = window.parent.document.getElementById(iframeId);
+            var targetEle = window.parent.document.getElementById(iframeId);
+            var paramMap = null;
+            if (!!targetEle) {
+                var url = targetEle.src; //取得iframe的url      
+                var ret;
+                paramMap = {};//初始化结果集        
+                //开始循环查找url中的参数，并以键值对形式放入结果集
+                while ((ret = regexpParam.exec(url)) != null) {
+                    //ret[1]是参数名，ret[2]是参数值
+                    paramMap[ret[1]] = ret[2];
+                }
+            }
+            return paramMap; //返回结果集
+        }
+        function ChangeUrl(para)
+        {
+            window.parent.document.getElementById("iframe_context").src = para;
+        }
+
+        function bayes_func(a) {
+            alert(a);
+            $.ajax({
+                url: "../operate/Algorithm.ashx",
+                data: {
+                    a: a
+                },
+                success: function (msg) {
+                    $("#datatable1").html(msg);
+                    //alert(msg);
+                },
+                error: function (err)
+                { alert("err" + err); }
+            })
+        }
+
+            function TableDataBind() {
+                var paramMap = getIframeParams("iframe_context");
+                var upload_id = paramMap.upload_id;
+                var upload_url = paramMap.upload_url;
+                alert(upload_id);
+                alert(upload_url);
+                $.ajax({
+                url: "../operate/Handler.ashx",
+                data: {
+                    a: "tableUpload",
+                    upload_id: upload_id,
+                    upload_url: upload_url
+                },
+                success: function (msg) {
+                    $("#datatable1").html(msg);
+                    //alert(msg);
+                    App.setPage("dynamic_table");  //Set current page
+                    App.init(); //Initialise plugins and elements
+                },
+                error: function (err)
+                { alert("err" + err); }
+            })
+        }
+    </script>
+    <!--hjr-javascript-->
+
+</body>
+</html>
