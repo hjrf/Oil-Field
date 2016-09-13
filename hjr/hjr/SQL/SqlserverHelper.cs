@@ -408,7 +408,20 @@ namespace hjr.SQL
             }
         }
         #endregion
-           
+
+        #region 创建一张SQL表
+        //public static void CreateTable(String tableName,String[,] calumns)
+        //{
+        //    String sql = null;
+        //    sql = "if exists (select 1 from  sysobjects where id = object_id('["+ tableName +"]') and type = 'U') drop table "+ tableName +"; create table "+ tableName +" (rid int identity(1,1) primary key,result_num varchar(50),xianyan varchar(50))";
+        //    hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+        //    for (int i = 0; i < xianYan.Length; i++)
+        //    {
+        //        sql = "insert into o_result_bayes_xianyan (result_num,xianyan) values ('" + eveResultNum[i] + "','" + xianYan[i] + "')";
+        //        hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+        //    }
+        //}
+        #endregion
 
 }
 }
