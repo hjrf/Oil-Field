@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>Cloud Admin | Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+	<link rel="stylesheet" type="text/css" href="css/cloud-admin.css" >
+	
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- DATE RANGE PICKER -->
+	<link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+	<!-- UNIFORM -->
+	<link rel="stylesheet" type="text/css" href="js/uniform/css/uniform.default.min.css" />
+	<!-- ANIMATE -->
+	<link rel="stylesheet" type="text/css" href="css/animatecss/animate.min.css" />
+	<!-- FONTS -->
+	<link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body class="login">	
+	<!-- PAGE -->
+	<section id="page">
+			<!-- HEADER -->
+			<header>
+				<!-- NAV-BAR -->
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div id="logo">
+								<a href="index.html">油田管理系统
+                                <!--<img src="img/logo/logo.png" height="40" alt="logo name" />-->
+                                </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/NAV-BAR -->
+			</header>
+			<!--/HEADER -->
+			<!-- LOGIN -->
+			<section id="login_bg" class="visible">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div class="login-box">
+								<h2 class="bigintro">Sign In</h2>
+								<div class="divide-40"></div>
+								<form role="form">
+								  <div class="form-group">
+									<label for="exampleInputEmail1">邮箱</label>
+									<i class="fa fa-envelope"></i>
+									<input type="text" class="form-control" id="exampleInputEmail1_log" >
+								  </div>
+								  <div class="form-group"> 
+									<label for="exampleInputPassword1">密码</label>
+									<i class="fa fa-lock"></i>
+									<input type="password" class="form-control" id="exampleInputPassword1_log" >
+								  </div>
+								  <div>
+									<label class="checkbox"> <input type="checkbox" id="isJizhu" class="uniform" value=""> 记住账号</label>
+									<button onclick="login()" class="btn btn-danger">登录</button>
+								  </div>
+								</form>
+								<!-- SOCIAL LOGIN -->
+								<div class="divide-20"></div>
+								<div class="center">
+									<!--<strong>或使用用户名登录</strong>-->
+								</div>
+								<div class="divide-20"></div>
+								<!--<div class="social-login center">
+									<a class="btn btn-primary btn-lg">
+										<i class="fa fa-facebook"></i>
+									</a>
+									<a class="btn btn-info btn-lg">
+										<i class="fa fa-twitter"></i>
+									</a>
+									<a class="btn btn-danger btn-lg">
+										<i class="fa fa-google-plus"></i>
+									</a>
+								</div>-->
+								<!-- /SOCIAL LOGIN -->
+								<div class="login-helpers">
+									<a href="#" onclick="swapScreen('forgot_bg');return false;">忘记密码?</a> <br>
+									没有账号？ <a href="#" onclick="swapScreen('register_bg');return false;">
+										现在注册！</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!--/LOGIN -->
+			<!-- REGISTER -->
+			<section id="register_bg" class="font-400">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div class="login-box">
+								<h2 class="bigintro">Register</h2>
+								<div class="divide-40"></div>
+								<form role="form">
+								  <div class="form-group">
+									<label for="exampleInputName">姓名</label>
+									<i class="fa fa-font"></i>
+									<input type="text" class="form-control" id="exampleInputName" >
+								  </div>
+								  <div class="form-group">
+									<label for="exampleInputUsername">用户名</label>
+									<i class="fa fa-user"></i>
+									<input type="text" class="form-control" id="exampleInputUsername" >
+								  </div>
+								  <div class="form-group">
+									<label for="exampleInputEmail1">电子邮箱</label>
+									<i class="fa fa-envelope"></i>
+									<input type="email" class="form-control" id="exampleInputEmail1_reg" >
+								  </div>
+								  <div class="form-group"> 
+									<label for="exampleInputPassword1">密码</label>
+									<i class="fa fa-lock"></i>
+									<input type="password" class="form-control" id="exampleInputPassword1_reg" >
+								  </div>
+								  <div class="form-group"> 
+									<label for="exampleInputPassword2">重复密码</label>
+									<i class="fa fa-check-square-o"></i>
+									<input type="password" class="form-control" id="exampleInputPassword2" >
+								  </div>
+								  <div>
+									<label class="checkbox"> <input type="checkbox" id="isXieyi" class="uniform" value=""> 我同意 <a href="#">用户协议</a> 和 <a href="#">相关法律条约</a></label>
+									<button onclick="register()" class="btn btn-success">注册</button>
+								  </div>
+								</form>
+								<!-- SOCIAL REGISTER -->
+								<div class="divide-20"></div>
+								<div class="center">
+									<!--<strong>温馨提示：你可以使用用户名或电子邮箱登录</strong>-->
+								</div>
+								<div class="divide-20"></div>
+								<!--<div class="social-login center">
+									<a class="btn btn-primary btn-lg">
+										<i class="fa fa-facebook"></i>
+									</a>
+									<a class="btn btn-info btn-lg">
+										<i class="fa fa-twitter"></i>
+									</a>
+									<a class="btn btn-danger btn-lg">
+										<i class="fa fa-google-plus"></i>
+									</a>
+								</div>-->
+								<!-- /SOCIAL REGISTER -->
+								<div class="login-helpers">
+									<a href="#" onclick="swapScreen('login_bg');return false;"> 返回登录</a> <br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!--/REGISTER -->
+			<!-- FORGOT PASSWORD -->
+			<section id="forgot_bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div class="login-box">
+								<h2 class="bigintro">Reset Password</h2>
+								<div class="divide-40"></div>
+								<form role="form">
+								  <div class="form-group">
+									<label for="exampleInputEmail1">输入你的邮箱地址</label>
+									<i class="fa fa-envelope"></i>
+									<input type="email" class="form-control" id="exampleInputEmail1_rst" >
+								  </div>
+								  <div>
+									<button type="submit" class="btn btn-info">发送给我重置后的密码</button>
+								  </div>
+								</form>
+								<div class="login-helpers">
+									<a href="#" onclick="swapScreen('login_bg');return false;">返回登录</a> <br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- FORGOT PASSWORD -->
+	</section>
+	<!--/PAGE -->
+	<!-- JAVASCRIPTS -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- JQUERY -->
+	<script src="js/jquery/jquery-2.0.3.min.js"></script>
+	<!-- JQUERY UI-->
+	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<!-- BOOTSTRAP -->
+	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+	
+	
+	<!-- UNIFORM -->
+	<script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>
+	<!-- BACKSTRETCH -->
+	<script type="text/javascript" src="js/backstretch/jquery.backstretch.min.js"></script>
+	<!-- CUSTOM SCRIPT -->
+	<script src="js/script.js"></script>
+	<script>
+		jQuery(document).ready(function() {		
+			App.setPage("login_bg");  //Set current page
+			App.init(); //Initialise plugins and elements
+		});
+	</script>
+	<script type="text/javascript">
+		function swapScreen(id) {
+			jQuery('.visible').removeClass('visible animated fadeInUp');
+			jQuery('#'+id).addClass('visible animated fadeInUp');
+		}
+	</script>
+	<!-- /JAVASCRIPTS -->
+
+    <!--hjr-javascript-->
+    <script>
+        //注册按钮点击事件，ajax提交到处理函数
+        function register()
+        {
+            var realName = $("#exampleInputName").val();
+            var userName = $("#exampleInputUsername").val();
+            var email = $("#exampleInputEmail1_reg").val();
+            var password = $("#exampleInputPassword1_reg").val();
+            var password2 = $("#exampleInputPassword2").val();
+            if (realName == "" || userName == "" || email == "" || password == "" || password2 == "" )
+            {
+                alert("请将信息填写完整！");
+                return;
+            }
+            if (!$("#isXieyi").is(':checked'))
+            {
+                alert("请确认协议！");
+                return;
+            }
+            if (password != password2)
+            {
+                alert("请确认两次输入密码一致！");
+                return;
+            }
+            $.ajax({
+                url: "../operate/Handler.ashx",
+                data: {
+                    a: "register",
+                    realName: realName,
+                    userName: userName,
+                    email: email,
+                    password:password
+                },
+                success: function (msg) {
+                    if (msg.indexOf("success") >= 0) {
+                        alert("注册成功");
+                        //alert(msg);
+                    }
+                    else {
+                        alert(msg);
+                        //$("#msg").html(msg);
+
+                    }
+                },
+                error: function (err)
+                { alert("err" + err); }
+            })
+        }
+
+        //登录按钮点击事件，ajax提交到处理函数
+        function login() {
+            var userName = $("#exampleInputEmail1_log").val();
+            var password = $("#exampleInputPassword1_log").val();
+            var isCookie = "0";
+            if (userName == "" ||  password == "") {
+                alert("请将信息填写完整！");
+                return;
+            }
+            if (!$("#isJizhu").is(':checked')) {
+                isCookie = "1";
+            }
+            $.ajax({
+                url: "../operate/Handler.ashx",
+                data: {
+                    a: "login",
+                    userName: userName,
+                    password: password,
+                    isCookie: isCookie
+                },
+                success: function (msg) {
+                    if (msg.indexOf("success") >= 0) {
+                        location.href = "_iframe.html";
+                        alert("登录成功");                
+                        //alert(msg);
+                    }
+                    else {
+                        alert(msg);
+                        //$("#msg").html(msg);
+
+                    }
+                },
+                error: function (err)
+                { alert("err" + err); }
+            })
+        }
+    </script>
+    <!--hjr-javascript-->
+</body>
+</html>

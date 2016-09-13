@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Cloud Admin | Forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- TYPEAHEAD -->
+    <link rel="stylesheet" type="text/css" href="js/typeahead/typeahead.css" />
+    <!-- FILE UPLOAD -->
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-fileupload/bootstrap-fileupload.min.css" />
+    <!-- SELECT2 -->
+    <link rel="stylesheet" type="text/css" href="js/select2/select2.min.css" />
+    <!-- UNIFORM -->
+    <link rel="stylesheet" type="text/css" href="js/uniform/css/uniform.default.min.css" />
+    <!-- JQUERY UPLOAD -->
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href="js/blueimp/gallery/blueimp-gallery.min.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="js/jquery-upload/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="js/jquery-upload/css/jquery.fileupload-ui.css">
+    <!-- FONTS -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <!-- /PAGE HEADER -->
+
+    <div class="col-md-6">
+        <div class="box border primary">
+            <div class="box-title">
+                <h4><i class="fa fa-bars"></i>KW校验初始数据填充</h4>
+                <div class="tools hidden-xs">
+                    <a href="#box-config" data-toggle="modal" class="config">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <a href="javascript:;" class="reload">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                    <a href="javascript:;" class="collapse">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="javascript:;" class="remove">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body big">
+                <h3 class="form-title">设置初始化</h3>
+                <div class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">设置样本总数</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="trains_num" class="form-control" placeholder="Text input">
+                        </div>
+                        <label  class="col-sm-3 control-label">训练样本比例</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="train_proportion" class="form-control" placeholder="Text input">
+                        </div>
+                        <label  class="col-sm-3 control-label">测试样本比例</label>
+         
+                        <div class="col-sm-9">
+                            <input type="text" id="test_proportion" class="form-control" placeholder="Text input">
+                        </div>
+
+                    </div>
+                   
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">选择分布函数</label>
+                        <div class="col-sm-9">
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="bayes()">bayes开始</button>
+                </div>
+            </div>
+        </div>
+       </div>
+
+    <div class="col-md-6">
+        <div class="box border primary">
+            <div class="box-title">
+                <h4><i class="fa fa-bars"></i>KW校验结果数据展示</h4>
+                <div class="tools hidden-xs">
+                    <a href="#box-config" data-toggle="modal" class="config">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <a href="javascript:;" class="reload">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                    <a href="javascript:;" class="collapse">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="javascript:;" class="remove">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body big">
+                <h3 class="form-title">训练结果</h3>
+                <div class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">样本总数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Text input">
+                        </div>
+                        <label class="col-sm-3 control-label">训练样本数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Text input">
+                        </div>
+                        <label class="col-sm-3 control-label">测试样本数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Text input">
+                        </div>
+                        <label class="col-sm-3 control-label">正确识别数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Text input">
+                        </div>
+                        <label class="col-sm-3 control-label">总识别率（%）</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Text input">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-primary" onclick="changeUrl('o_data_train_bayes');">
+        排序
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_data_test_bayes')">
+        验证
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_result_bayes_qianyan');">
+        先验
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_result_bayes_average');">
+        均值
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_result_bayes_standard_dev');">
+        标准差
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_data_train_bayes');">
+        条件
+    </button>
+    <button class="btn btn-primary" onclick="changeUrl('o_result_bayes_houyan');">
+        后验
+    </button>
+
+    
+    <!-- DATA TABLES -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BOX -->
+            <div class="box border green">
+                <div class="box-title">
+                    <h4><i class="fa fa-table"></i>Bayes</h4>
+                    <div class="tools hidden-xs">
+                        <a href="#box-config" data-toggle="modal" class="config">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                        <a href="javascript:;" class="reload">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="javascript:;" class="collapse">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a href="javascript:;" class="remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="datatable1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+
+                      
+                    </table>
+                </div>
+            </div>
+            <!-- /BOX -->
+        </div>
+    </div>
+
+
+    <!-- /EXPORT TABLES -->
+    <div class="footer-tools">
+        <span class="go-top">
+            <i class="fa fa-chevron-up"></i> Top
+        </span>
+    </div>
+
+        <!--/PAGE -->
+        <!-- JAVASCRIPTS -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- JQUERY -->
+        <script src="js/jquery/jquery-2.0.3.min.js"></script>
+        <!-- JQUERY UI-->
+        <script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <!-- BOOTSTRAP -->
+        <script src="bootstrap-dist/js/bootstrap.min.js"></script>
+
+
+        <!-- DATE RANGE PICKER -->
+        <script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+
+        <script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+        <!-- SLIMSCROLL -->
+        <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+        <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+        <!-- BLOCK UI -->
+        <script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+        <!-- TYPEHEAD -->
+        <script type="text/javascript" src="js/typeahead/typeahead.min.js"></script>
+        <!-- AUTOSIZE -->
+        <script type="text/javascript" src="js/autosize/jquery.autosize.min.js"></script>
+        <!-- COUNTABLE -->
+        <script type="text/javascript" src="js/countable/jquery.simplyCountable.min.js"></script>
+        <!-- INPUT MASK -->
+        <script type="text/javascript" src="js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+        <!-- FILE UPLOAD -->
+        <script type="text/javascript" src="js/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+        <!-- SELECT2 -->
+        <script type="text/javascript" src="js/select2/select2.min.js"></script>
+        <!-- UNIFORM -->
+        <script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>
+        <!-- JQUERY UPLOAD -->
+        <!-- The Templates plugin is included to render the upload/download listings -->
+        <script src="js/blueimp/javascript-template/tmpl.min.js"></script>
+        <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+        <script src="js/blueimp/javascript-loadimg/load-image.min.js"></script>
+        <!-- The Canvas to Blob plugin is included for image resizing functionality -->
+        <script src="js/blueimp/javascript-canvas-to-blob/canvas-to-blob.min.js"></script>
+        <!-- blueimp Gallery script -->
+        <script src="js/blueimp/gallery/jquery.blueimp-gallery.min.js"></script>
+        <!-- The basic File Upload plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload.min.js"></script>
+        <!-- The File Upload processing plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-process.min.js"></script>
+        <!-- The File Upload image preview & resize plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-image.min.js"></script>
+        <!-- The File Upload audio preview plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-audio.min.js"></script>
+        <!-- The File Upload video preview plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-video.min.js"></script>
+        <!-- The File Upload validation plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-validate.min.js"></script>
+        <!-- The File Upload user interface plugin -->
+        <script src="js/jquery-upload/js/jquery.fileupload-ui.min.js"></script>
+        <!-- The main application script -->
+        <script src="js/jquery-upload/js/main.js"></script>
+        <!-- COOKIE -->
+        <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+        <!-- CUSTOM SCRIPT -->
+        <script src="js/script.js"></script>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="bootstrap-dist/js/bootstrap.min.js"></script>
+
+
+    <!-- DATE RANGE PICKER -->
+    <script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+
+    <script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- DATA TABLES -->
+    <script type="text/javascript" src="js/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
+    <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js"></script>
+    <!-- COOKIE -->
+    <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- CUSTOM SCRIPT -->
+    <script src="js/script.js"></script>
+        <script>
+            jQuery(document).ready(function () {
+                bayes_func('bayes_show_train');
+                //bayes_func('bayes_show_train');
+                //App.setPage("forms");  //Set current page
+                //App.setPage("dynamic_table");
+                //App.init(); //Initialise plugins and elements
+            });
+    </script>
+        <!-- /JAVASCRIPTS -->
+    <!--hjr-javascript-->
+    <script>
+        function bayes() {
+            var trainsNum = $("#trains_num").val();
+            var trainProportion = $("#train_proportion").val();
+            var testProportion = $("#test_proportion").val();
+            if (trainProportion == ""|| testProportion == "")
+            {
+                alert("请将信息填写完整");
+                return;
+            }
+            $.ajax({
+                url: "../operate/Algorithm.ashx",
+                data: {
+                    a: "kw",
+                    trainsNum: trainsNum,
+                    trainProportion: trainProportion,
+                    testProportion: testProportion    
+                },
+                success: function (msg) {
+                    //$("#datatable1").html(msg);
+                   
+                    alert(msg);
+                },
+                error: function (err)
+                { alert("err" + err); }
+            })
+        }
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function changeUrl(tableName)
+        {
+            window.location.href = "_kw.html?table_name=" + tableName + "";
+        }
+        function bayes_func() {
+            tableName = getUrlParam("table_name");
+            alert(tableName);
+            if (tableName != null) {
+                $.ajax({
+                    url: "../operate/Algorithm.ashx",
+                    data: {
+                        a: "table_show",
+                        tableName: tableName
+                    },
+                    success: function (msg) {
+                        $("#datatable1").html(msg);
+                        //alert(msg);
+                        App.setPage("forms");  //Set current page
+                        App.setPage("dynamic_table");
+                        App.init(); //Initialise plugins and elements
+                    },
+                    error: function (err)
+                    { alert("err" + err); }
+                })
+            }
+        }
+
+    </script>
+    <!--hjr-javascript-->
+
+
+</body>
+</html>
