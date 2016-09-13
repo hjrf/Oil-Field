@@ -13,9 +13,15 @@ namespace hjr.Alg
         public static float GetfenLeiShang(float[] xianYan)
         {
             float fenleiShang = 0;
+            float temp = 0;
             for (int i = 0; i < xianYan.Length; i++)
             {
-                fenleiShang += Convert.ToSingle(-(xianYan[i]) * (Math.Log(xianYan[i]) / Math.Log(2)));//累加（负的前验概率乘以（log以2为底前验概率的对数））
+                temp = Convert.ToSingle(-(xianYan[i]) * (Math.Log(xianYan[i], 2)));//累加（负的前验概率乘以（log以2为底前验概率的对数））
+                if (float.IsNaN(temp))
+                {
+                    temp = 0;
+                }
+                fenleiShang += temp;
             }
             return fenleiShang;
         }
@@ -176,5 +182,16 @@ namespace hjr.Alg
             }
             return shuXingShang;
         }
+
+        /// <summary>
+        /// 使用交错数组构建决策树
+        /// </summary>
+        //public static List<List<String>> CreateTree()
+        //{
+
+        //}
+
+
+
     }
 }

@@ -8,6 +8,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "hjr_manage", "hjr_manage\", "{119E0260-961E-4FC7-86C0-104B02577A6B}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
+		ProjectReferences = "{bea8dded-faa4-4cfc-8e05-63e5d4cc9f47}|hjr.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_7050"
 		Debug.AspNetCompiler.PhysicalPath = "hjr_manage\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_7050\"

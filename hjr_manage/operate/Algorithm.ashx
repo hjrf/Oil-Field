@@ -170,7 +170,20 @@ public class algorithm : IHttpHandler {
         hjr.SQL.SqlserverHelper.Array3insertSql("o_result_id3_shuxing_and__fenlie_and_fenlei_num",shuXingAndFenLeiAndFenleiNum);
             
         float[] shuXingShang = hjr.Alg.Id3.GetshuXingShang(trainData,shuXingAndFenLieNum,shuXingAndFenLeiAndFenleiNum);
-        
+        //将分类熵和属性熵和做差之后的信息增益插入数据库
+        String sql = null;
+        sql = "if exists (select 1 from  sysobjects where id = object_id('[o_result_id3_gain]') and type = 'U') drop table o_result_id3_gain; create table o_result_id3_gain (r_id int identity(1,1) primary key,fenlei_shang varchar(50),shuxing_shang varchar(50),gain varchar(50))";
+        hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+        for (int i = 0; i < shuXingShang.Length; i++)
+        {
+            sql = "insert into o_result_id3_gain (fenlei_shang,shuxing_shang,gain) values ('" + fenLeiShang + "','" + shuXingShang[i] +"','"+ (Convert.ToSingle(fenLeiShang)-Convert.ToSingle(shuXingShang[i])).ToString() +"')";
+            hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+        }
+
+
+
+
+       
 
 
         //}
