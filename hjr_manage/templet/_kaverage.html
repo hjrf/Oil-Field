@@ -39,7 +39,7 @@
     <div class="col-md-6">
         <div class="box border primary">
             <div class="box-title">
-                <h4><i class="fa fa-bars"></i>Id3初始数据填充</h4>
+                <h4><i class="fa fa-bars"></i>K均值初始数据填充</h4>
                 <div class="tools hidden-xs">
                     <a href="#box-config" data-toggle="modal" class="config">
                         <i class="fa fa-cog"></i>
@@ -63,28 +63,45 @@
                         <div class="col-sm-9">
                             <input type="text" id="trains_num" class="form-control" placeholder="Text input">
                         </div>
-                        <label  class="col-sm-3 control-label">训练样本比例</label>
+                        <label class="col-sm-3 control-label">训练样本比例</label>
                         <div class="col-sm-9">
                             <input type="text" id="train_proportion" class="form-control" placeholder="Text input">
                         </div>
-                        <label  class="col-sm-3 control-label">测试样本比例</label>
-         
+                        <label class="col-sm-3 control-label">测试样本比例</label>
+
                         <div class="col-sm-9">
                             <input type="text" id="test_proportion" class="form-control" placeholder="Text input">
                         </div>
+                        <label class="col-sm-3 control-label">分类数目</label>
 
+                        <div class="col-sm-9">
+                            <input type="text" id="fenleiNum" class="form-control" placeholder="Text input">
+                        </div>
+                        
                     </div>
-                   
-                    <button class="btn btn-primary" onclick="bayes()">id3开始</button>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">选择分布函数</label>
+                        <div class="col-sm-9">
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="bayes()">K均值开始</button>
                 </div>
             </div>
         </div>
-       </div>
+    </div>
 
     <div class="col-md-6">
         <div class="box border primary">
             <div class="box-title">
-                <h4><i class="fa fa-bars"></i>Id3结果数据展示</h4>
+                <h4><i class="fa fa-bars"></i>K均值结果数据展示</h4>
                 <div class="tools hidden-xs">
                     <a href="#box-config" data-toggle="modal" class="config">
                         <i class="fa fa-cog"></i>
@@ -132,39 +149,19 @@
     </div>
 
 
-
-
-
-    <div>
-      id3运算过程数据  
-    </div>
-
-    <button class="btn btn-primary" onclick="changeUrl('o_data_train_id3');">
+    <button class="btn btn-primary" onclick="changeUrl('o_data_train_kaverage');">
         训练
     </button>
-    <button class="btn btn-primary" onclick="changeUrl('o_data_test_id3')">
+    <button class="btn btn-primary" onclick="changeUrl('o_data_test_kaverage')">
         验证
     </button>
-    <button class="btn btn-primary" onclick="changeUrl('o_result_id3_fenlie_point');">
-        分裂点
+    <button class="btn btn-primary" onclick="changeUrl('o_result_kaverage_odistance')">
+        欧式距离
     </button>
-    <button class="btn btn-primary" onclick="changeUrl('o_result_id3_shuxing_and__fenlie_num');">
-        属性X分裂点
+    <button class="btn btn-primary" onclick="changeUrl('o_result_kaverage_newtraindata');">
+        聚类结果
     </button>
-    <button class="btn btn-primary" onclick="changeUrl(' o_result_id3_shuxing_and__fenlie_and_fenlei_num');">
-        属性X分裂点X分类
-    </button>
-    <button class="btn btn-primary" onclick="changeUrl('o_result_id3_gain');">
-        熵+信息增益
-    </button>
-    <button class="btn btn-primary" onclick="changeUrl('o_data_train_bayes');">
-        决策树
-    </button>
-
-    
-
-
-
+   
 
 
     <!-- DATA TABLES -->
@@ -190,10 +187,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table id="datatable1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
-
-                      
-                    </table>
+                    <table id="datatable1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover"></table>
                 </div>
             </div>
             <!-- /BOX -->
@@ -208,69 +202,69 @@
         </span>
     </div>
 
-        <!--/PAGE -->
-        <!-- JAVASCRIPTS -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!-- JQUERY -->
-        <script src="js/jquery/jquery-2.0.3.min.js"></script>
-        <!-- JQUERY UI-->
-        <script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
-        <!-- BOOTSTRAP -->
-        <script src="bootstrap-dist/js/bootstrap.min.js"></script>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="bootstrap-dist/js/bootstrap.min.js"></script>
 
 
-        <!-- DATE RANGE PICKER -->
-        <script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+    <!-- DATE RANGE PICKER -->
+    <script src="js/bootstrap-daterangepicker/moment.min.js"></script>
 
-        <script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
-        <!-- SLIMSCROLL -->
-        <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
-        <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
-        <!-- BLOCK UI -->
-        <script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
-        <!-- TYPEHEAD -->
-        <script type="text/javascript" src="js/typeahead/typeahead.min.js"></script>
-        <!-- AUTOSIZE -->
-        <script type="text/javascript" src="js/autosize/jquery.autosize.min.js"></script>
-        <!-- COUNTABLE -->
-        <script type="text/javascript" src="js/countable/jquery.simplyCountable.min.js"></script>
-        <!-- INPUT MASK -->
-        <script type="text/javascript" src="js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-        <!-- FILE UPLOAD -->
-        <script type="text/javascript" src="js/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-        <!-- SELECT2 -->
-        <script type="text/javascript" src="js/select2/select2.min.js"></script>
-        <!-- UNIFORM -->
-        <script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>
-        <!-- JQUERY UPLOAD -->
-        <!-- The Templates plugin is included to render the upload/download listings -->
-        <script src="js/blueimp/javascript-template/tmpl.min.js"></script>
-        <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-        <script src="js/blueimp/javascript-loadimg/load-image.min.js"></script>
-        <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-        <script src="js/blueimp/javascript-canvas-to-blob/canvas-to-blob.min.js"></script>
-        <!-- blueimp Gallery script -->
-        <script src="js/blueimp/gallery/jquery.blueimp-gallery.min.js"></script>
-        <!-- The basic File Upload plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload.min.js"></script>
-        <!-- The File Upload processing plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-process.min.js"></script>
-        <!-- The File Upload image preview & resize plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-image.min.js"></script>
-        <!-- The File Upload audio preview plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-audio.min.js"></script>
-        <!-- The File Upload video preview plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-video.min.js"></script>
-        <!-- The File Upload validation plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-validate.min.js"></script>
-        <!-- The File Upload user interface plugin -->
-        <script src="js/jquery-upload/js/jquery.fileupload-ui.min.js"></script>
-        <!-- The main application script -->
-        <script src="js/jquery-upload/js/main.js"></script>
-        <!-- COOKIE -->
-        <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
-        <!-- CUSTOM SCRIPT -->
-        <script src="js/script.js"></script>
+    <script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- TYPEHEAD -->
+    <script type="text/javascript" src="js/typeahead/typeahead.min.js"></script>
+    <!-- AUTOSIZE -->
+    <script type="text/javascript" src="js/autosize/jquery.autosize.min.js"></script>
+    <!-- COUNTABLE -->
+    <script type="text/javascript" src="js/countable/jquery.simplyCountable.min.js"></script>
+    <!-- INPUT MASK -->
+    <script type="text/javascript" src="js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+    <!-- FILE UPLOAD -->
+    <script type="text/javascript" src="js/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+    <!-- SELECT2 -->
+    <script type="text/javascript" src="js/select2/select2.min.js"></script>
+    <!-- UNIFORM -->
+    <script type="text/javascript" src="js/uniform/jquery.uniform.min.js"></script>
+    <!-- JQUERY UPLOAD -->
+    <!-- The Templates plugin is included to render the upload/download listings -->
+    <script src="js/blueimp/javascript-template/tmpl.min.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="js/blueimp/javascript-loadimg/load-image.min.js"></script>
+    <!-- The Canvas to Blob plugin is included for image resizing functionality -->
+    <script src="js/blueimp/javascript-canvas-to-blob/canvas-to-blob.min.js"></script>
+    <!-- blueimp Gallery script -->
+    <script src="js/blueimp/gallery/jquery.blueimp-gallery.min.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload.min.js"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-process.min.js"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-image.min.js"></script>
+    <!-- The File Upload audio preview plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-audio.min.js"></script>
+    <!-- The File Upload video preview plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-video.min.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-validate.min.js"></script>
+    <!-- The File Upload user interface plugin -->
+    <script src="js/jquery-upload/js/jquery.fileupload-ui.min.js"></script>
+    <!-- The main application script -->
+    <script src="js/jquery-upload/js/main.js"></script>
+    <!-- COOKIE -->
+    <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- CUSTOM SCRIPT -->
+    <script src="js/script.js"></script>
     <!--/PAGE -->
     <!-- JAVASCRIPTS -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -300,7 +294,7 @@
     <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
     <!-- CUSTOM SCRIPT -->
     <script src="js/script.js"></script>
-        <script>
+    <script>
             jQuery(document).ready(function () {
                 bayes_func('bayes_show_train');
                 //bayes_func('bayes_show_train');
@@ -309,14 +303,15 @@
                 //App.init(); //Initialise plugins and elements
             });
     </script>
-        <!-- /JAVASCRIPTS -->
+    <!-- /JAVASCRIPTS -->
     <!--hjr-javascript-->
     <script>
         function bayes() {
             var trainsNum = $("#trains_num").val();
             var trainProportion = $("#train_proportion").val();
             var testProportion = $("#test_proportion").val();
-            if (trainProportion == ""|| testProportion == "")
+            var fenleiNum = $("#fenleiNum").val();
+            if (trainProportion == "" || testProportion == "" || fenleiNum =="")
             {
                 alert("请将信息填写完整");
                 return;
@@ -324,14 +319,15 @@
             $.ajax({
                 url: "../operate/Algorithm.ashx",
                 data: {
-                    a: "id3",
+                    a: "kaverage",
                     trainsNum: trainsNum,
                     trainProportion: trainProportion,
-                    testProportion: testProportion    
+                    testProportion: testProportion,
+                    fenleiNum: fenleiNum
                 },
                 success: function (msg) {
                     //$("#datatable1").html(msg);
-                   
+
                     alert(msg);
                 },
                 error: function (err)
@@ -345,7 +341,7 @@
         }
         function changeUrl(tableName)
         {
-            window.location.href = "_id3.html?table_name=" + tableName + "";
+            window.location.href = "_kaverage.html?table_name=" + tableName + "";
         }
         function bayes_func() {
             tableName = getUrlParam("table_name");

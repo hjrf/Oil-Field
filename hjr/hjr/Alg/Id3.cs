@@ -25,6 +25,12 @@ namespace hjr.Alg
             }
             return fenleiShang;
         }
+        /// <summary>
+        /// 连续数据离散化，获取分裂点
+        /// </summary>
+        /// <param name="testData"></param>
+        /// <param name="pointNum"></param>
+        /// <returns></returns>
         public static float[,] GetFenLiePoint(float[,] testData,int pointNum)
         {
             float[,] fenLiePoint = new float[testData.GetLongLength(1)-1,pointNum];
@@ -149,7 +155,13 @@ namespace hjr.Alg
             }
             return countTemp;
         }
-
+        /// <summary>
+        /// 各个属性的信息熵
+        /// </summary>
+        /// <param name="trainData"></param>
+        /// <param name="shuXingAndFenLieNum"></param>
+        /// <param name="shuXingAndFenLieAndFenleiNum"></param>
+        /// <returns></returns>
         public static float[] GetshuXingShang(float[,] trainData,float[,] shuXingAndFenLieNum, float[,,] shuXingAndFenLieAndFenleiNum)
         {
             float[] shuXingShang = new float[trainData.GetLongLength(1)-1];
@@ -184,12 +196,20 @@ namespace hjr.Alg
         }
 
         /// <summary>
-        /// 使用交错数组构建决策树
+        /// 使用泛型构建决策树
         /// </summary>
-        //public static List<List<String>> CreateTree()
-        //{
+        public static List<List<String>> GetTree()
+        {
+            List<List<String>> tree = new List<List<String>>();
+            List<String> root = new List<string>();
+            List<String> node = new List<string>();
+            root.Add("树根");//树根
+            node.Add("2");//树枝，节点
 
-        //}
+            tree.Add(root);
+            tree.Add(node);
+            return tree;
+        }
 
 
 

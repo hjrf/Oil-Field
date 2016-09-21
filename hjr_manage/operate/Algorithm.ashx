@@ -3,6 +3,7 @@
 using System;
 using System.Web;
 using System.Data;
+using System.Collections.Generic;
 using System.Configuration;
 
 public class algorithm : IHttpHandler {
@@ -34,6 +35,9 @@ public class algorithm : IHttpHandler {
                 break;
             case "kw"://bayes算法
                 Kw();
+                break;
+            case "kaverage"://bayes算法
+                KAverage();
                 break;
             default:
                 break;
@@ -168,7 +172,7 @@ public class algorithm : IHttpHandler {
         hjr.SQL.SqlserverHelper.Array2insertSql("o_result_id3_shuxing_and__fenlie_num",shuXingAndFenLieNum);
         float[,,] shuXingAndFenLeiAndFenleiNum = hjr.Alg.Id3.GetShuXingAndFenLieAndFenleiNum(trainData,fenliePoint);
         hjr.SQL.SqlserverHelper.Array3insertSql("o_result_id3_shuxing_and__fenlie_and_fenlei_num",shuXingAndFenLeiAndFenleiNum);
-            
+
         float[] shuXingShang = hjr.Alg.Id3.GetshuXingShang(trainData,shuXingAndFenLieNum,shuXingAndFenLeiAndFenleiNum);
         //将分类熵和属性熵和做差之后的信息增益插入数据库
         String sql = null;
@@ -183,7 +187,7 @@ public class algorithm : IHttpHandler {
 
 
 
-       
+
 
 
         //}
@@ -208,7 +212,103 @@ public class algorithm : IHttpHandler {
         //    }
     }
 
+    private void KAverage()
+    {
+        Init("kaverage");
+        int fenleiNum = Convert.ToInt32(HttpContext.Current.Request["fenleiNum"]);
+        //前k条随机训练数据，每条数据代表一个分类
+        float[,] randK = new float[fenleiNum, trainData.GetLongLength(1)];
+        //新训练数据，即去除前k条数据和所有分类结果清空后的数据
+        float[,] newTrainData = new float[trainData.GetLongLength(0) - fenleiNum, trainData.GetLongLength(1)];
 
+        float[,] fenlei = new float[fenleiNum, trainData.GetLongLength(1) - 1];
+        List<float[,]> fenleiResult = new List<float[,]>();
+        float[,] oDistance = new float[trainData.GetLongLength(0)-fenleiNum,fenleiNum];
+        //取训练数据中前k条作为随机选取的特征点，没有分类结果
+        for (int i = 0; i < randK.GetLongLength(0); i++)
+        {
+            for (int j = 0; j < randK.GetLongLength(1); j++)
+            {
+                randK[i, j] = trainData[i, j];
+            }
+        }
+
+        //将除了前k条训练数据之外的数据重新赋值到一个数组，没有分类结果
+        for (int i = fenleiNum; i < newTrainData.GetLongLength(0)+fenleiNum; i++)
+        {
+            for (int j = 0; j < newTrainData.GetLongLength(1); j++)
+            {
+                newTrainData[i-fenleiNum, j] = trainData[i, j];
+            }
+        }
+
+
+        //除前k条记录的记录与前k条记录求欧氏距离
+        for (int i = 0; i < newTrainData.GetLongLength(0); i++)
+        {
+            for (int j = 0; j < fenleiNum; j++)
+            {
+                for (int k = 0; k < newTrainData.GetLongLength(1) - 1; k++)
+                {
+                    fenlei[j, 0] += Convert.ToSingle(Math.Pow((newTrainData[i, j] - randK[j, k]), 2));
+                }
+                oDistance[i,j] = Convert.ToSingle(Math.Sqrt(fenlei[j, 0]));
+            }
+            //将最小欧氏距离对应的训练数据添加到相应分类集合中
+            int minIndex = 1;
+            float min = oDistance[i,0];
+            for (int j = 0; j < fenleiNum; j++)
+            {
+                if (oDistance[i,j] < min)
+                {
+                    min = oDistance[i,j];
+                    minIndex = j+1 ;
+                }
+            }
+            //把新训练数据都标上分类结果
+            newTrainData[i, newTrainData.GetLongLength(1) - 1] = minIndex;
+        }
+
+        //第一维是分类数目，之后的二维数组是新训练数据中遍历出的归类后的记录
+        List<List<float[]>> listNewTrainData = new List <List<float[]>> ();
+
+        for (int i = 0; i < newTrainData.GetLongLength(0); i++)
+        {
+            for (int j = 0; j < fenleiNum; j++)
+            {
+                if (newTrainData[i, newTrainData.GetLongLength(1) - 1] == j + 1)
+                {
+                    float[] temptd = new float[newTrainData.GetLongLength(1)];
+
+                    for (int k = 0; k < newTrainData.GetLongLength(1); k++)
+                    {
+                        temptd[k] = newTrainData[i, k];
+                        //把分类1的新训练数据赋值到一个数组中，并把这个数组赋给sortNewTrainData[0]
+                    }
+                    listNewTrainData[j].Add(temptd);
+                }
+            }
+        }
+        //将之前的集合转换为三维数组方便存储到数据库
+
+
+        //根据分类结果把新训练数据分成k个集合
+        hjr.SQL.SqlserverHelper.Array2insertSql("o_result_kaverage_newtraindata",newTrainData);
+        hjr.SQL.SqlserverHelper.Array2insertSql("o_result_kaverage_odistance",oDistance);
+
+        //分别计算k个方差再求和得出E
+
+
+        //if  //当E小于设定值后算法停止
+
+        //否则  //求每一个集合的均值作为新的randK[]，重新执行算法
+
+
+
+
+
+
+    }
 
 
 
