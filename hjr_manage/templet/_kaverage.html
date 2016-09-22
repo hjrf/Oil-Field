@@ -77,21 +77,19 @@
                         <div class="col-sm-9">
                             <input type="text" id="fenleiNum" class="form-control" placeholder="Text input">
                         </div>
+                        <label class="col-sm-3 control-label">方差精度</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="ePrecision" class="form-control" placeholder="Text input">
+                        </div>
+                        <label class="col-sm-3 control-label">迭代次数</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="iterationNum" class="form-control" placeholder="Text input">
+                        </div>
                         
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">选择分布函数</label>
-                        <div class="col-sm-9">
-                            <select class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div>
                     <button class="btn btn-primary" onclick="bayes()">K均值开始</button>
                 </div>
             </div>
@@ -161,7 +159,9 @@
     <button class="btn btn-primary" onclick="changeUrl('o_result_kaverage_newtraindata');">
         聚类结果
     </button>
-   
+    <button class="btn btn-primary" onclick="changeUrl('o_result_kaverage_count_randk');">
+        均值
+    </button>
 
 
     <!-- DATA TABLES -->
@@ -170,7 +170,7 @@
             <!-- BOX -->
             <div class="box border green">
                 <div class="box-title">
-                    <h4><i class="fa fa-table"></i>Bayes</h4>
+                    <h4><i class="fa fa-table"></i>K均值</h4>
                     <div class="tools hidden-xs">
                         <a href="#box-config" data-toggle="modal" class="config">
                             <i class="fa fa-cog"></i>
@@ -311,6 +311,9 @@
             var trainProportion = $("#train_proportion").val();
             var testProportion = $("#test_proportion").val();
             var fenleiNum = $("#fenleiNum").val();
+
+            var ePrecision = $("#ePrecision").val();//方差精度
+            var ePrecision = $("#ePrecision").val();//迭代次数
             if (trainProportion == "" || testProportion == "" || fenleiNum =="")
             {
                 alert("请将信息填写完整");

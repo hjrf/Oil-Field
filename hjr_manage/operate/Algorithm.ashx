@@ -212,12 +212,20 @@ public class algorithm : IHttpHandler {
         //    }
     }
 
+    private void KAverageRecursive()
+    {
+            //返回值randk，并作为参数出入递归
+            KAverage();
+            //最终目标得出最佳randK
+    }
     private void KAverage()
     {
         Init("kaverage");
         int fenleiNum = Convert.ToInt32(HttpContext.Current.Request["fenleiNum"]);
         //前k条随机训练数据，每条数据代表一个分类
         float[,] randK = new float[fenleiNum, trainData.GetLongLength(1)];
+        //保留k均值历史纪录
+        List<float[,]> countRandK = new List<float[,]>();
         //新训练数据，即去除前k条数据和所有分类结果清空后的数据
         float[,] newTrainData = new float[trainData.GetLongLength(0) - fenleiNum, trainData.GetLongLength(1)];
 
@@ -232,7 +240,7 @@ public class algorithm : IHttpHandler {
                 randK[i, j] = trainData[i, j];
             }
         }
-
+        countRandK.Add(randK);
         //将除了前k条训练数据之外的数据重新赋值到一个数组，没有分类结果
         for (int i = fenleiNum; i < newTrainData.GetLongLength(0)+fenleiNum; i++)
         {
@@ -274,34 +282,63 @@ public class algorithm : IHttpHandler {
 
         for (int i = 0; i < newTrainData.GetLongLength(0); i++)
         {
+            List<float[]> listTemptd = new List<float[]>();
             for (int j = 0; j < fenleiNum; j++)
             {
                 if (newTrainData[i, newTrainData.GetLongLength(1) - 1] == j + 1)
                 {
                     float[] temptd = new float[newTrainData.GetLongLength(1)];
-
                     for (int k = 0; k < newTrainData.GetLongLength(1); k++)
                     {
                         temptd[k] = newTrainData[i, k];
-                        //把分类1的新训练数据赋值到一个数组中，并把这个数组赋给sortNewTrainData[0]
+                        //把分类1的新训练数据赋值到一个数组中，并把这个数组赋给2维集合中
                     }
-                    listNewTrainData[j].Add(temptd);
+                    listTemptd.Add(temptd);
+                }
+            }
+            //把2维集合赋值给长度为fenleiNum的集合中
+            listNewTrainData.Add(listTemptd);
+        }
+
+        //统计每个均值，重新赋值给randK
+        for (int i = 0; i < fenleiNum; i++)
+        {
+            for (int j = 0; j < listNewTrainData[i].Count; j++)
+            {
+                for (int k = 0; k < trainData.GetLongLength(1) - 1; k++)
+                {
+                    randK[i, k] += listNewTrainData[i][j][k];
+                }
+                for (int k = 0; k < trainData.GetLongLength(1) - 1; k++)
+                {
+                    randK[i, k] /= listNewTrainData[i].Count;
                 }
             }
         }
-        //将之前的集合转换为三维数组方便存储到数据库
+        countRandK.Add(randK);
+       
+        //将k均值统计转化为三维数组,方便存入数据库
 
+        float[,,] countRandKToArray = new float[countRandK.Count,countRandK[0].GetLongLength(0),countRandK[0].GetLongLength(1)];
 
-        //根据分类结果把新训练数据分成k个集合
+        for (int i = 0; i < countRandK.Count; i++)
+        {
+            for (int j = 0; j < countRandK[0].GetLongLength(0); j++)
+            {
+                for (int k = 0; k < countRandK[0].GetLongLength(1); k++)
+                {
+                    countRandKToArray[i, j, k] = countRandK[i][j,k];
+                }
+            }
+        }
+        //分别计算k个方差再求和得出E
+        //if  //当E小于设定值后算法停止
+        //否则  //求每一个集合的均值作为新的randK[]，重新执行算法
+
         hjr.SQL.SqlserverHelper.Array2insertSql("o_result_kaverage_newtraindata",newTrainData);
         hjr.SQL.SqlserverHelper.Array2insertSql("o_result_kaverage_odistance",oDistance);
+        hjr.SQL.SqlserverHelper.Array3insertSql("o_result_kaverage_count_randk",countRandKToArray);
 
-        //分别计算k个方差再求和得出E
-
-
-        //if  //当E小于设定值后算法停止
-
-        //否则  //求每一个集合的均值作为新的randK[]，重新执行算法
 
 
 
