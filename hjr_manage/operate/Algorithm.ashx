@@ -14,6 +14,7 @@ public class algorithm : IHttpHandler {
     float[,] trainData = null;
     float[,] testData = null;
     float trainNum = 0;
+    private static int fenleiResultNum = Convert.ToInt32(ConfigurationSettings.AppSettings["fenlei_result_num"]);
 
     public void ProcessRequest(HttpContext context)
     {
@@ -38,6 +39,9 @@ public class algorithm : IHttpHandler {
                 break;
             case "kaverage"://bayes算法
                 KAverage();
+                break;
+            case "hmm"://bayes算法
+                Hmm();
                 break;
             default:
                 break;
@@ -214,9 +218,9 @@ public class algorithm : IHttpHandler {
 
     private void KAverageRecursive()
     {
-            //返回值randk，并作为参数出入递归
-            KAverage();
-            //最终目标得出最佳randK
+        //返回值randk，并作为参数出入递归
+        KAverage();
+        //最终目标得出最佳randK
     }
     private void KAverage()
     {
@@ -316,7 +320,7 @@ public class algorithm : IHttpHandler {
             }
         }
         countRandK.Add(randK);
-       
+
         //将k均值统计转化为三维数组,方便存入数据库
 
         float[,,] countRandKToArray = new float[countRandK.Count,countRandK[0].GetLongLength(0),countRandK[0].GetLongLength(1)];
@@ -340,12 +344,96 @@ public class algorithm : IHttpHandler {
         hjr.SQL.SqlserverHelper.Array3insertSql("o_result_kaverage_count_randk",countRandKToArray);
 
 
-
-
-
-
-
     }
+
+
+    private void Hmm()
+    {
+        Init("hmm");
+
+        int fenlieNum = 3;//属性分裂的区间数
+        //int selectPara = 2;//选择的属性
+        int selectPara = Convert.ToInt32(HttpContext.Current.Request["selectPara"]);
+        String[] hidden = new String[5] { "极高", "高", "中", "低", "极低" };
+        float[,] fenliePoint = hjr.Alg.Id3.GetFenLiePoint(trainData,fenlieNum);
+        float[] eveResultNum = hjr.Alg.Common.GetEveResultNum(trainData);
+        float[] xianYan = hjr.Alg.Common.GetXianYan(eveResultNum,trainNum);
+        float[,] hiddenTransform = new float[fenleiResultNum,fenleiResultNum];//隐含状态转移概率矩阵,任一状态变为任一状态的概率
+        float[,] viewTransform = new float[fenleiResultNum,fenlieNum+1];//每种分类对应某属性每个分裂区间的概率矩阵
+
+        //维特比算法 
+        float[,] hmmResult = new float[testData.GetLongLength(0),fenleiResultNum];
+        float[] input = new float[testData.GetLongLength(0)];
+
+        //计算隐含状态概率转移矩阵
+        for (int j = 0; j < fenleiResultNum; j++)
+        {
+            float[] temp = new float[fenleiResultNum];
+            for (int k = 0; k < fenleiResultNum; k++)
+            {
+                for (int i = 0; i < trainData.GetLongLength(0) - 1; i++)
+                {
+                    if (trainData[i, trainData.GetLongLength(1) - 1] == j + 1 && trainData[i + 1, trainData.GetLongLength(1) - 1] == k + 1)
+                    {
+                        temp[k]++;
+                    }
+                }
+            }
+            float tempCount = 0;
+            for (int k = 0; k < fenleiResultNum; k++)
+            {
+                tempCount += temp[k];
+            }
+            for (int k = 0; k < fenleiResultNum; k++)
+            {
+                hiddenTransform[j, k] = temp[k] /tempCount;
+            }
+        }
+
+        //计算观测状态转移概率矩阵
+
+        for (int k = 0; k < trainData.GetLongLength(0); k++)
+        {
+            for (int i = 0; i < fenleiResultNum; i++)
+            {
+                if (trainData[k, trainData.GetLongLength(1) - 1] == i + 1)
+                {
+                    if (trainData[k, selectPara - 1] < fenliePoint[selectPara - 1, 0])
+                    {
+                        viewTransform[i, 0]++;
+                    }
+                    if (trainData[k, selectPara - 1] > fenliePoint[selectPara - 1, 0] && trainData[k, selectPara - 1] <= fenliePoint[selectPara - 1, 1])
+                    {
+                        viewTransform[i, 1]++;
+                    }
+                    if (trainData[k, selectPara - 1] > fenliePoint[selectPara - 1, 1] && trainData[k, selectPara - 1] <= fenliePoint[selectPara - 1, 2])
+                    {
+                        viewTransform[i, 2]++;
+                    }
+                    if (trainData[k, selectPara - 1] > fenliePoint[selectPara - 1, 2])
+                    {
+                        viewTransform[i, 3]++;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < fenleiResultNum; i++)
+        {
+            for (int j = 0; j < fenlieNum + 1; j++)
+            {
+                viewTransform[i, j] = viewTransform[i, j] / eveResultNum[i];
+            }
+        }
+
+        hjr.SQL.SqlserverHelper.Array1insertSql("o_result_hmm_hidden", hidden);
+        hjr.SQL.SqlserverHelper.Array2insertSql("o_result_hmm_fenlie", fenliePoint);
+        hjr.SQL.SqlserverHelper.Array1insertSql("o_result_hmm_xianYan",xianYan);
+        hjr.SQL.SqlserverHelper.Array2insertSql("o_result_hmm_hidden_transform",hiddenTransform);
+        hjr.SQL.SqlserverHelper.Array2insertSql("o_result_hmm_view_transform",viewTransform);
+    }
+
+
 
 
 

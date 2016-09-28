@@ -320,6 +320,88 @@ namespace hjr.SQL
         }
         #endregion
 
+        #region 将1维数组导入数据库
+        /// <summary>
+        /// 自动建一个表并将一个二维数组导入数据库
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="array1">1维数组</param>
+        public static void Array1insertSql(string tableName, String[] array1)
+        {
+            try
+            {
+                String sqlStr = null;
+                String sqlStr1 = null;
+                String sqlStr2 = null;
+
+                for (int i = 0; i < array1.GetLongLength(0); i++)
+                {
+                    sqlStr += ",d" + i + " varchar(50)";
+                    sqlStr1 += "d" + i + ",";
+                }
+                sqlStr1 = sqlStr1.Substring(0, sqlStr1.Length - 1);
+
+                String sql = "if exists (select 1 from  sysobjects where id = object_id('[" + tableName + "]') and type = 'U') drop table " + tableName + "; create table " + tableName + " (id int identity(1,1) primary key " + sqlStr + ")";
+                hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+       
+                    sqlStr2 = null;
+                for (int i = 0; i < array1.GetLongLength(0); i++)
+                {
+                    sqlStr2 += "'" + array1[i] + "',";//拼接数据库Value字符串
+                }
+                    sqlStr2 = sqlStr2.Substring(0, sqlStr2.Length - 1);
+                    sql = "insert into " + tableName + "( " + sqlStr1 + " ) values(" + sqlStr2 + ")";
+                    hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+            
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+        #endregion
+
+        #region 将1维数组导入数据库
+        /// <summary>
+        /// 自动建一个表并将一个二维数组导入数据库
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="array1">1维数组</param>
+        public static void Array1insertSql(string tableName, float[] array1)
+        {
+            try
+            {
+                String sqlStr = null;
+                String sqlStr1 = null;
+                String sqlStr2 = null;
+
+                for (int i = 0; i < array1.GetLongLength(0); i++)
+                {
+                    sqlStr += ",d" + i + " varchar(50)";
+                    sqlStr1 += "d" + i + ",";
+                }
+                sqlStr1 = sqlStr1.Substring(0, sqlStr1.Length - 1);
+
+                String sql = "if exists (select 1 from  sysobjects where id = object_id('[" + tableName + "]') and type = 'U') drop table " + tableName + "; create table " + tableName + " (id int identity(1,1) primary key " + sqlStr + ")";
+                hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+
+                sqlStr2 = null;
+                for (int i = 0; i < array1.GetLongLength(0); i++)
+                {
+                    sqlStr2 += "'" + array1[i] + "',";//拼接数据库Value字符串
+                }
+                sqlStr2 = sqlStr2.Substring(0, sqlStr2.Length - 1);
+                sql = "insert into " + tableName + "( " + sqlStr1 + " ) values(" + sqlStr2 + ")";
+                hjr.SQL.SqlserverHelper.ExecuteScalar(sql);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+        #endregion
+
         #region 将2维数组导入数据库
         /// <summary>
         /// 自动建一个表并将一个二维数组导入数据库

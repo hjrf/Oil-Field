@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MvcVersion.Controllers
 {
-    public class TestController : Controller
+    public class UploadController : Controller
     {
         // GET: Test
         public ActionResult Index()

@@ -63,6 +63,7 @@
     <Compile Include="Tools\UpLoad.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DTStruct\" />
     <Folder Include="Pay\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
